@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Panel administrativo | Servicios Especiales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-mark small"><i class="fa-solid fa-car-rear"></i></div><div><strong>Servicios Especiales</strong><span>Administración</span></div></div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-section="dashboard"><i class="fa-solid fa-grid-2"></i><span>Inicio</span></button>
+      <button class="nav-item" data-section="clientes"><i class="fa-solid fa-users"></i><span>Clientes</span></button>
+      <button class="nav-item" data-section="vehiculos"><i class="fa-solid fa-car-side"></i><span>Vehículos</span></button>
+      <button class="nav-item" data-section="servicios"><i class="fa-solid fa-screwdriver-wrench"></i><span>Servicios</span></button>
+      <button class="nav-item" data-section="inventario"><i class="fa-solid fa-boxes-stacked"></i><span>Inventario</span></button>
+      <button class="nav-item" data-section="cotizaciones"><i class="fa-solid fa-file-invoice-dollar"></i><span>Cotizaciones</span></button>
+<button class="nav-item" data-section="pagos"><i class="fa-solid fa-money-bill-transfer"></i><span>Pagos y adeudos</span></button>
+<button class="nav-item" data-section="reportes"><i class="fa-solid fa-chart-column"></i><span>Reportes</span></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../index.html"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>Ver sitio público</span></a>
+      <button id="logout"><i class="fa-solid fa-right-from-bracket"></i><span>Cerrar sesión</span></button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+      <div><span class="top-kicker">Panel de control</span><h1 id="page-title">Resumen general</h1></div>
+      <div class="top-actions"><span class="date-pill" id="fecha"></span><div class="avatar">AD</div></div>
+    </header>
+
+    <div class="content">
+      <section class="admin-section active" id="dashboard">
+        <div class="welcome">
+          <div><span class="eyebrow">Gestión del taller</span><h2>Buen día, Administrador</h2><p>Consulta rápidamente la operación de Servicios Especiales.</p></div>
+          <button class="btn-primary" data-open-modal="servicio"><i class="fa-solid fa-plus"></i> Nueva orden</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-screwdriver-wrench"></i></div><div><span>Servicios registrados</span><strong id="stat-servicios">0</strong><small>Histórico</small></div></article>
+          <article class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-car-on"></i></div><div><span>En proceso</span><strong id="stat-proceso">0</strong><small>Órdenes activas</small></div></article>
+          <article class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div><div><span>Terminados</span><strong id="stat-terminados">0</strong><small>Servicios concluidos</small></div></article>
+          <article class="stat-card"><div class="stat-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div><div><span>Stock bajo</span><strong id="stat-stock">0</strong><small>Requieren atención</small></div></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel-card span-2"><div class="card-head"><div><span class="eyebrow">Actividad</span><h3>Servicios recientes</h3></div><button class="text-btn" data-go="servicios">Ver todos <i class="fa-solid fa-arrow-right"></i></button></div><div class="table-wrap"><table><thead><tr><th>Folio</th><th>Cliente</th><th>Vehículo</th><th>Servicio</th><th>Estado</th></tr></thead><tbody id="recent-services"></tbody></table></div></article>
+          <article class="panel-card"><div class="card-head"><div><span class="eyebrow">Inventario</span><h3>Alertas de existencia</h3></div></div><div id="stock-alerts" class="alerts-list"></div></article>
+        </div>
+      </section>
+
+      <section class="admin-section" id="clientes">
+        <div class="section-head"><div><span class="eyebrow">Directorio</span><h2>Clientes</h2><p>Información de contacto de los clientes del taller.</p></div><button class="btn-primary" data-open-modal="cliente"><i class="fa-solid fa-user-plus"></i> Nuevo cliente</button></div>
+        <div class="panel-card"><div class="toolbar"><div class="search"><i class="fa-solid fa-magnifying-glass"></i><input data-search="clientes" placeholder="Buscar cliente o teléfono"></div></div><div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Teléfono</th><th>Correo</th><th>Registro</th><th></th></tr></thead><tbody id="clientes-table"></tbody></table></div></div>
+      </section>
+
+      <section class="admin-section" id="vehiculos">
+        <div class="section-head"><div><span class="eyebrow">Directorio</span><h2>Vehículos</h2><p>Registro de vehículos atendidos por el taller.</p></div><button class="btn-primary" data-open-modal="vehiculo"><i class="fa-solid fa-plus"></i> Registrar vehículo</button></div>
+        <div class="panel-card"><div class="toolbar"><div class="search"><i class="fa-solid fa-magnifying-glass"></i><input data-search="vehiculos" placeholder="Buscar marca, modelo o placas"></div></div><div class="table-wrap"><table><thead><tr><th>Vehículo</th><th>Año</th><th>Placas</th><th>Color</th><th>Cliente</th><th></th></tr></thead><tbody id="vehiculos-table"></tbody></table></div></div>
+      </section>
+
+      <section class="admin-section" id="servicios">
+        <div class="section-head"><div><span class="eyebrow">Órdenes de trabajo</span><h2>Servicios realizados</h2><p>Historial y seguimiento de trabajos de hojalatería y pintura.</p></div><button class="btn-primary" data-open-modal="servicio"><i class="fa-solid fa-plus"></i> Nueva orden</button></div>
+        <div class="panel-card"><div class="toolbar"><div class="search"><i class="fa-solid fa-magnifying-glass"></i><input data-search="servicios" placeholder="Buscar folio, cliente o vehículo"></div><select id="filtro-estado"><option value="">Todos los estados</option><option>Recibido</option><option>En proceso</option><option>Terminado</option><option>Entregado</option></select></div><div class="table-wrap"><table><thead><tr><th>Folio</th><th>Cliente</th><th>Vehículo</th><th>Servicio</th><th>Entrada</th><th>Entrega</th><th>Saldo</th><th>Estado</th><th></th></tr></thead><tbody id="servicios-table"></tbody></table></div></div>
+      </section>
+
+      <section class="admin-section" id="inventario">
+        <div class="section-head"><div><span class="eyebrow">Almacén</span><h2>Inventario</h2><p>Control de materiales e insumos utilizados en el taller.</p></div><button class="btn-primary" data-open-modal="inventario"><i class="fa-solid fa-plus"></i> Nuevo producto</button></div>
+        <div class="panel-card"><div class="toolbar"><div class="search"><i class="fa-solid fa-magnifying-glass"></i><input data-search="inventario" placeholder="Buscar producto o categoría"></div></div><div class="table-wrap"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Existencia</th><th>Mínimo</th><th>Unidad</th><th>Estado</th><th></th></tr></thead><tbody id="inventario-table"></tbody></table></div></div>
+      </section>
+      <section id="cotizaciones" class="admin-section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Presupuestos</span>
+            <h2>Cotizaciones</h2>
+            <p>Elabora, consulta, imprime y convierte presupuestos en órdenes de servicio.</p>
+          </div>
+          <button class="btn-primary" data-open-modal="cotizacion">
+            <i class="fa-solid fa-plus"></i> Nueva cotización
+          </button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input data-search="cotizaciones" placeholder="Buscar por folio, cliente o vehículo">
+          </div>
+          <select id="filtro-cotizacion">
+            <option value="">Todos los estados</option>
+            <option>Pendiente</option>
+            <option>Aceptada</option>
+            <option>Rechazada</option>
+            <option>Convertida</option>
+          </select>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Folio</th><th>Cliente</th><th>Vehículo</th><th>Fecha</th><th>Total</th><th>Estado</th><th>Acciones</th></tr>
+              </thead>
+              <tbody id="cotizaciones-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      
+<section id="pagos" class="admin-section">
+<div class="section-head"><div><span class="eyebrow">Control financiero</span><h2>Pagos y adeudos</h2><p>Registra abonos, consulta saldos pendientes y revisa el historial de pagos.</p></div><button class="btn-primary" data-open-modal="pago"><i class="fa-solid fa-plus"></i> Registrar pago</button></div>
+<div class="payment-stats"><div class="payment-stat"><span>Total facturado</span><strong id="pay-total">$0.00</strong></div><div class="payment-stat"><span>Total recibido</span><strong id="pay-received">$0.00</strong></div><div class="payment-stat"><span>Saldo pendiente</span><strong id="pay-pending">$0.00</strong></div><div class="payment-stat"><span>Órdenes con adeudo</span><strong id="pay-debt-count">0</strong></div></div>
+<div class="toolbar"><div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input data-search="pagos" placeholder="Buscar por folio, cliente o vehículo"></div><select id="filtro-pago"><option value="">Todas las órdenes</option><option value="adeudo">Con adeudo</option><option value="pagado">Pagadas</option></select></div>
+<div class="table-card"><div class="table-wrap"><table><thead><tr><th>Orden</th><th>Cliente</th><th>Vehículo</th><th>Total</th><th>Pagado</th><th>Saldo</th><th>Estatus</th><th>Acciones</th></tr></thead><tbody id="pagos-table"></tbody></table></div></div>
+<div class="table-card payment-history-card"><div class="card-title-row"><span class="eyebrow">Movimientos</span><h3>Historial de pagos</h3></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Orden</th><th>Cliente</th><th>Concepto</th><th>Método</th><th>Importe</th><th></th></tr></thead><tbody id="historial-pagos"></tbody></table></div></div>
+</section>
+
+<section id="reportes" class="section">
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">Análisis del negocio</span>
+      <h2>Reportes</h2>
+      <p>Resumen visual de ingresos, adeudos, órdenes de trabajo y servicios realizados.</p>
+    </div>
+    <button class="btn-secondary" id="print-reports"><i class="fa-solid fa-print"></i> Imprimir reporte</button>
+  </div>
+
+  <div class="report-kpis">
+    <div class="report-kpi"><span>Valor de órdenes</span><strong id="r-total">$0.00</strong><small>Total registrado</small></div>
+    <div class="report-kpi"><span>Ingresos recibidos</span><strong id="r-income">$0.00</strong><small>Pagos acumulados</small></div>
+    <div class="report-kpi"><span>Adeudo pendiente</span><strong id="r-debt">$0.00</strong><small>Saldo por cobrar</small></div>
+    <div class="report-kpi"><span>Ticket promedio</span><strong id="r-ticket">$0.00</strong><small>Por orden de servicio</small></div>
+  </div>
+
+  <div class="report-grid">
+    <article class="report-card">
+      <div class="report-card-head"><div><span class="eyebrow">Flujo de trabajo</span><h3>Órdenes por estado</h3></div><strong id="r-orders">0</strong></div>
+      <div id="report-estados" class="report-bars"></div>
+    </article>
+    <article class="report-card">
+      <div class="report-card-head"><div><span class="eyebrow">Demanda</span><h3>Servicios más solicitados</h3></div></div>
+      <div id="report-services" class="report-bars"></div>
+    </article>
+  </div>
+
+  <div class="report-grid">
+    <article class="report-card">
+      <div class="report-card-head"><div><span class="eyebrow">Actividad mensual</span><h3>Trabajos registrados por mes</h3></div></div>
+      <div id="report-months" class="month-chart"></div>
+    </article>
+    <article class="report-card">
+      <div class="report-card-head"><div><span class="eyebrow">Cobranza</span><h3>Pagado vs. pendiente</h3></div></div>
+      <div class="debt-visual">
+        <div class="donut" id="payment-donut"><div class="donut-center"><strong id="r-paid-pct">0%</strong><span>cobrado</span></div></div>
+        <div class="debt-legend"><div><i class="legend-dot paid-dot"></i><span>Recibido</span><strong id="r-paid-legend">$0.00</strong></div><div><i class="legend-dot debt-dot"></i><span>Pendiente</span><strong id="r-debt-legend">$0.00</strong></div></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="report-grid">
+    <article class="report-card">
+      <div class="report-card-head"><div><span class="eyebrow">Clientes</span><h3>Resumen comercial</h3></div></div>
+      <div class="mini-metrics">
+        <div><strong id="r-clients">0</strong><span>Clientes</span></div>
+        <div><strong id="r-vehicles">0</strong><span>Vehículos</span></div>
+        <div><strong id="r-quotes">0</strong><span>Cotizaciones</span></div>
+        <div><strong id="r-accepted">0</strong><span>Cotizaciones aceptadas</span></div>
+      </div>
+    </article>
+    <article class="report-card">
+      <div class="report-card-head"><div><span class="eyebrow">Inventario</span><h3>Situación de existencias</h3></div></div>
+      <div class="mini-metrics">
+        <div><strong id="r-products">0</strong><span>Productos</span></div>
+        <div><strong id="r-low-stock">0</strong><span>Existencias bajas</span></div>
+        <div><strong id="r-debt-orders">0</strong><span>Órdenes con adeudo</span></div>
+        <div><strong id="r-completed">0</strong><span>Trabajos finalizados</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+    </div>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog"><button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button><div id="modal-content"></div></div>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="js/admin.js"></script>
+</body>
+</html>
